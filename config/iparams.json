@@ -1,0 +1,22 @@
+{
+    "f_apikey": {
+        "display_name": "FreshDesk Api Key",
+        "description": "Please enter your FreshDesk apikey",
+        "type": "api_key",
+        "required": true,
+        "type_attributes": {
+          "product": "name of the product"
+        },
+        "secure": true
+      },
+      "h_apikey": {
+        "display_name": "Holded Api Key",
+        "description": "Please enter your  Holded apikey here ",
+        "type": "api_key",
+        "required": true,
+        "type_attributes": {
+          "product": "name of the product"
+        },
+        "secure": true
+      }  
+}
