@@ -111,14 +111,17 @@ exports = {
     var changes = payload.data.ticket.changes;
     let estado = payload.data.ticket.status;
     let empresa = payload.data.ticket.company_id;
-    let bolsa_horas;
+    let bolsa_horas=0;
+    let  bolsa_de_horas_restante;
     let operacion;
-    let horas_estimadas = payload.data.ticket.custom_fields.cf_horas_estimadas560353_2670978;
+    let horas_estimadas = Number(payload.data.ticket.custom_fields.cf_horas_estimadas560353_2670978);
     let confirmación_h_estimadas = payload.data.ticket.custom_fields.cf_confirmacin_horas_estimadas_2670978;
     console.log('1: ' + estado);
     console.log('2: ' + empresa);
     console.log('3: ' + horas_estimadas);
     console.log('4: ' + confirmación_h_estimadas);
+    console.log('5: ' + bolsa_horas);
+    console.log('6: ' + operacion);
 
 
     console.log('Changes: ' + JSON.stringify(changes));
@@ -132,13 +135,15 @@ exports = {
         }
       }).then(async function (response) {
         console.log(response.data);
-        bolsa_horas = Number(response.data.custom_fields.bolsa_de_horas_restante);
-        console.log('BH:' + bolsa_horas);
+        bolsa_de_horas_restante= response.data.custom_fields.bolsa_de_horas_restante;
+        console.log('BH:' + bolsa_de_horas_restante);
          console.log('HE:' + horas_estimadas);
-        operacion = bolsa_horas + horas_estimadas;
+         console.log('Operacion: '+ operacion);
+        operacion= 0;
+        operacion = Number(bolsa_de_horas_restante)+ horas_estimadas;
         
         console.log('Operacion: ' + operacion);
-        operacion = JSON.stringify(operacion);
+       operacion = JSON.stringify(operacion);
         console.info('Horas totales: ' + bolsa_horas);
   
   
@@ -172,7 +177,6 @@ exports = {
       }).catch(function (error) {
         console.error(error);
       });
-
 
     } else if (estado == 5) {
 
@@ -183,11 +187,12 @@ exports = {
         }
       }).then(async function (response) {
         console.log(response.data);
-        bolsa_horas = Number(response.data.custom_fields.bolsa_de_horas_restante);
-        console.log('BH:' + bolsa_horas);
+        bolsa_de_horas_restante = response.data.custom_fields.bolsa_de_horas_restante;
+        console.log('BH:' + bolsa_de_horas_restante);
+        console.log('Operacion: '+ operacion);
+        operacion= 0;
 
-
-        operacion = bolsa_horas - horas_estimadas;
+        operacion = Number(bolsa_de_horas_restante )- horas_estimadas;
         operacion = JSON.stringify(operacion);
         console.info('Horas totales: ' + bolsa_horas);
   
@@ -219,13 +224,13 @@ exports = {
         console.error(error);
       });
 
-    
+    bolsa_horas = 0;
 
     }
 
   },
 
-  /////////////////////////////////////  MODIFICAR REGISTRO DE TIEMPO ////////////////////////////////////////
+  /////////////////////////////////////  MODIFICAR REGISTRO DE TIEMPO   ////////////////////////////////////////
 
 
   onTimeEntryCreateHandler: async function (args) {
@@ -263,7 +268,7 @@ exports = {
       }).then(function (response) {
         console.info('Empresa encontrada ' + JSON.stringify(response.data));
         let project_id = response.data.custom_fields.projectid;
-        console.info('Id de proeyecto: ' + project_id)
+        console.info('Id de proyecto: ' + project_id)
 
 
         axios.get('https://watchandact-help.freshdesk.com/api/v2/agents/' + f_user, {
