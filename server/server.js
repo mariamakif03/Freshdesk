@@ -192,7 +192,7 @@ if(e_holded == "SI"){
           });
 
           console.log('DATOS: ' + datos)
-          console.log("Nuevo ID " + JSON.stringify(ticketId));
+          console.log("Nuevo ID " + JSON.stringify(idticket));
 
         }
 
